@@ -1,13 +1,14 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 
-/*[ OpCode  rs rt rd shamt functio ]*/
+
+//     [ OpCode  rs rt rd shamt functio ]
+//     add rd rs rt
+
 public class Program {
   public static void Main(string[] args) {
-    string[] v = Console.ReadLine().Split(" ");
-    Console.WriteLine(Function(v[0])+" "+Rd(v[1])+" "+Rs(v[2])+" "+Rt(v[3]));
-    //Console.WriteLine("Lucas".IndexOf("$"));
-    
+    AbrirTxt("teste.txt");
   }
   public static string Function(string s){
     string function = "";
@@ -37,10 +38,16 @@ public class Program {
   }
   
   public static string Rt(string a){
-    string rt; 
-    if(a.IndexOf("$")!=-1) a = a.Remove(0, 1);
-    rt = Conversor(a);
+    if(a.IndexOf("$")==-1) return "00000";
+    a = a.Remove(0, 1);
+    string rt = Conversor(a);
     return rt;
+  }
+
+  public static string Shamt(string a){
+    if(a.IndexOf("$")!=-1) return "00000";
+    string shamt = Conversor(a);
+    return shamt;
   }
 
   public static string Rs(string a){
@@ -63,5 +70,25 @@ public class Program {
       s += p.Pop().ToString();
     return s; 
   }
+  public static void AbrirTxt(string arquivo){
+    StreamReader f = new StreamReader(arquivo);
+    List<string> codes = new List<string>();
+    string s = f.ReadLine();
+    while (s != null) {
+      string[] v = s.Split(' ');
+      codes.Add(Rs(v[2])+" "+Rt(v[3])+" "+Rd(v[1])+" "+Shamt(v[3])+" "+Function(v[0]));
+      s = f.ReadLine();
+    }
+    Console.WriteLine("  op     rs    rt    rs  shamp  funct");
+    foreach(object i in codes)
+      Console.WriteLine("000000 "+i);
+    f.Close();
+    
+    StreamWriter x = new StreamWriter("codes.txt");
+    foreach(object i in codes)
+      x.WriteLine("000000 "+i);
+    x.Close();
+  }
 }
+
     
