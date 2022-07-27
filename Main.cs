@@ -24,20 +24,50 @@ public class Program {
         string function = "100000";
         return opcode+rs+rt+rd+shamt+function;
       }
-      if(aux[0].ToLower()=="sub")
-        function = "100010";
-      if(aux[0].ToLower()=="and")
-        function = "100100";
-      if(aux[0].ToLower()=="or")
-        function = "100101";
-      if(aux[0].ToLower()=="xor")
-        function = "100110";
-      if(aux[0].ToLower()=="nor")
-        function = "100111";
-      if(aux[0].ToLower()=="slt")
-        function = "101010";
-
-    return function;
+      if(aux[0].ToLower()=="sub"){
+        rs = Formar(aux[2]);
+        string rt = Formar(aux[3]);
+        string rd = Formar(aux[1]);
+        string function = "100010";
+        return opcode+rs+rt+rd+shamt+function;
+      }
+      if(aux[0].ToLower()=="and"){
+        rs = Formar(aux[2]);
+        string rt = Formar(aux[3]);
+        string rd = Formar(aux[1]);
+        string function = "100100";
+        return opcode+rs+rt+rd+shamt+function;
+      }
+      if(aux[0].ToLower()=="or"){
+        rs = Formar(aux[2]);
+        string rt = Formar(aux[3]);
+        string rd = Formar(aux[1]);
+        string function = "100100";
+        return opcode+rs+rt+rd+shamt+function;
+      }
+      if(aux[0].ToLower()=="xor"){
+        string rt = Formar(aux[3]);
+        string rd = Formar(aux[1]);
+        shamt = Formar(aux[2]);
+        string function = "100110";
+        return opcode+rs+rt+rd+shamt+function;
+      }
+      if(aux[0].ToLower()=="nor"){
+        string rt = Formar(aux[3]);
+        string rd = Formar(aux[1]);
+        shamt = Formar(aux[2]);
+         string function = "100111";
+        return opcode+rs+rt+rd+shamt+function;
+      }
+       
+      if(aux[0].ToLower()=="slt"){
+        string rt = Formar(aux[3]);
+        string rd = Formar(aux[1]);
+        shamt = Formar(aux[2]);
+        string function = "101010";
+        return opcode+rs+rt+rd+shamt+function;
+      }
+    return " ";
   }
   
  
@@ -75,6 +105,8 @@ public class Program {
       s = f.ReadLine();
     }
     f.Close(); 
+    foreach(object i in codes)
+      Console.WriteLine(i);
     return codes;
   }
   
