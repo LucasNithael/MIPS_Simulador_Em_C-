@@ -6,54 +6,50 @@ using System.Collections.Generic;
 //     [ OpCode  rs rt rd shamt functio ]
 //     add rd rs rt
 
+
 public class Program {
   public static void Main(string[] args) {
     AbrirTxt("teste.txt");
   }
-  public static string Function(string s){
-    string function = "";
-    s = s.ToLower();
-    if(s=="add")
-      function = "100000";
-    if(s=="sub")
-      function = "100010";
-    if(s=="and")
-      function = "100100";
-    if(s=="or")
-      function = "100101";
-    if(s=="xor")
-      function = "100110";
-    if(s=="nor")
-      function = "100111";
-    if(s=="slt")
-      function = "101010";
+  
+  public static string Codificar(string s){
+    string[] aux = s.Split(" ");
+    string opcode = "000000";
+    string shamt = "00000";
+    string rs = "00000";
+    if(aux[0].ToLower()=="add"){
+        rs = Formar(aux[2]);
+        string rt = Formar(aux[3]);
+        string rd = Formar(aux[1]);
+        string function = "100000";
+        return opcode+rs+rt+rd+shamt+function;
+      }
+      if(aux[0].ToLower()=="sub")
+        function = "100010";
+      if(aux[0].ToLower()=="and")
+        function = "100100";
+      if(aux[0].ToLower()=="or")
+        function = "100101";
+      if(aux[0].ToLower()=="xor")
+        function = "100110";
+      if(aux[0].ToLower()=="nor")
+        function = "100111";
+      if(aux[0].ToLower()=="slt")
+        function = "101010";
 
     return function;
   }
   
-  public static string Rd(string a){
-    string rd = a.Remove(0, 1);
-    rd = Conversor(rd);
-    return rd;
-  }
-  
-  public static string Rt(string a){
-    if(a.IndexOf("$")==-1) return "00000";
+ 
+  public static string Formar(string a){
+    string rt = " ";
+    if(a.IndexOf("$")==-1){
+      rt = Conversor(a);
+      return rt;
+    }
     a = a.Remove(0, 1);
-    string rt = Conversor(a);
+    rt = Conversor(a);
     return rt;
-  }
-
-  public static string Shamt(string a){
-    if(a.IndexOf("$")!=-1) return "00000";
-    string shamt = Conversor(a);
-    return shamt;
-  }
-
-  public static string Rs(string a){
-    string rs = a.Remove(0, 1);
-    rs = Conversor(rs);
-    return rs;
   }
   
   public static string Conversor(string x){
@@ -70,25 +66,21 @@ public class Program {
       s += p.Pop().ToString();
     return s; 
   }
-  public static void AbrirTxt(string arquivo){
+  public static List<string> AbrirTxt(string arquivo){
     StreamReader f = new StreamReader(arquivo);
     List<string> codes = new List<string>();
     string s = f.ReadLine();
     while (s != null) {
-      string[] v = s.Split(' ');
-      codes.Add(Rs(v[2])+" "+Rt(v[3])+" "+Rd(v[1])+" "+Shamt(v[3])+" "+Function(v[0]));
+      codes.Add(Codificar(s));
       s = f.ReadLine();
     }
-    Console.WriteLine("  op     rs    rt    rs  shamp  funct");
-    foreach(object i in codes)
-      Console.WriteLine("000000 "+i);
-    f.Close();
-    
-    StreamWriter x = new StreamWriter("codes.txt");
-    foreach(object i in codes)
-      x.WriteLine("000000 "+i);
-    x.Close();
+    f.Close(); 
+    return codes;
   }
+  
 }
+
+
+
 
     
