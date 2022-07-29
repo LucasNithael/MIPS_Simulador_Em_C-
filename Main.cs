@@ -6,12 +6,21 @@ using System.Linq;
 
 //     [ OpCode  rs rt rd shamt functio ]
 //     add rd rs rt
-
+/*                       
+        0000 0000 1000 0000 0001 0000 1010 0000
+          0   0    8     0    1   0    a    0 
+*/
 
 public class Program {
   public static void Main(string[] args) {
-    AbrirTxt("teste.txt");
-    Console.WriteLine(BinarioHexadecimal("10100110"));
+    //AbrirTxt("teste.txt");
+    /*string x = "0000 0000 1000 0000 0001 0000 1010 0000";
+    x = x.Remove(0,4);
+    x = x.Remove(0,4);
+    Console.WriteLine(x);
+    Console.WriteLine("1000 0000 0001 0000 1010 0000");*/
+  
+                                       Console.WriteLine(BinarioHexadecimal("00000000100000000001000010100000"));                                                     
     //Console.WriteLine(BinarioHexadecimal2("1111"));
   }
 
@@ -119,11 +128,10 @@ public class Program {
     for(int j=0; j<8; j++){
       for(int i=0; i<4; i++){
         aux = aux + s[i];
-        
       }
       hex = hex + BinarioHexadecimal2(aux);
       s = s.Remove(0, 4);
-      
+      aux = "";
       }
     return hex;
   }
