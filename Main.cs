@@ -13,15 +13,8 @@ using System.Linq;
 
 public class Program {
   public static void Main(string[] args) {
-    //AbrirTxt("teste.txt");
-    /*string x = "0000 0000 1000 0000 0001 0000 1010 0000";
-    x = x.Remove(0,4);
-    x = x.Remove(0,4);
-    Console.WriteLine(x);
-    Console.WriteLine("1000 0000 0001 0000 1010 0000");*/
-  
-                                       Console.WriteLine(BinarioHexadecimal("00000000100000000001000010100000"));                                                     
-    //Console.WriteLine(BinarioHexadecimal2("1111"));
+    AbrirTxt("teste.txt");
+
   }
 
   
@@ -35,50 +28,50 @@ public class Program {
         string rt = Formar(aux[3]);
         string rd = Formar(aux[1]);
         string function = "100000";
-        return opcode+rs+rt+rd+shamt+function;
+        return BinarioHexadecimal(opcode+rs+rt+rd+shamt+function);
       }
       if(aux[0].ToLower()=="sub"){
         rs = Formar(aux[2]);
         string rt = Formar(aux[3]);
         string rd = Formar(aux[1]);
         string function = "100010";
-        return opcode+rs+rt+rd+shamt+function;
+        return BinarioHexadecimal(opcode+rs+rt+rd+shamt+function);
       }
       if(aux[0].ToLower()=="and"){
         rs = Formar(aux[2]);
         string rt = Formar(aux[3]);
         string rd = Formar(aux[1]);
         string function = "100100";
-        return opcode+rs+rt+rd+shamt+function;
+        return BinarioHexadecimal(opcode+rs+rt+rd+shamt+function);
       }
       if(aux[0].ToLower()=="or"){
         rs = Formar(aux[2]);
         string rt = Formar(aux[3]);
         string rd = Formar(aux[1]);
-        string function = "100100";
-        return opcode+rs+rt+rd+shamt+function;
+        string function = "100101";
+        return BinarioHexadecimal(opcode+rs+rt+rd+shamt+function);
       }
       if(aux[0].ToLower()=="xor"){
+        rs = Formar(aux[2]);
         string rt = Formar(aux[3]);
         string rd = Formar(aux[1]);
-        shamt = Formar(aux[2]);
         string function = "100110";
-        return opcode+rs+rt+rd+shamt+function;
+        return BinarioHexadecimal(opcode+rs+rt+rd+shamt+function);
       }
       if(aux[0].ToLower()=="nor"){
+        rs = Formar(aux[2]);
         string rt = Formar(aux[3]);
         string rd = Formar(aux[1]);
-        shamt = Formar(aux[2]);
-         string function = "100111";
-        return opcode+rs+rt+rd+shamt+function;
+        string function = "100111";
+        return BinarioHexadecimal(opcode+rs+rt+rd+shamt+function);
       }
        
       if(aux[0].ToLower()=="slt"){
+        rs = Formar(aux[2]);
         string rt = Formar(aux[3]);
         string rd = Formar(aux[1]);
-        shamt = Formar(aux[2]);
         string function = "101010";
-        return opcode+rs+rt+rd+shamt+function;
+        return BinarioHexadecimal(opcode+rs+rt+rd+shamt+function);
       }
     return " ";
   }
@@ -118,8 +111,8 @@ public class Program {
       s = f.ReadLine();
     }
     f.Close(); 
-   // foreach(object i in codes)
-    //  Console.WriteLine(i);
+    foreach(object i in codes)
+     Console.WriteLine(i);
     return codes;
   }
   public static string BinarioHexadecimal(string s){
