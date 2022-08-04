@@ -178,8 +178,11 @@ public class Program {
       s = f.ReadLine();
     }
     f.Close();
+    StreamWriter j = new StreamWriter("Registradores.txt");
+    
     for(int i=0; i<32; i++)
-      Console.WriteLine($"${i}: "+regs[i]);
+      j.WriteLine($"${i}: {regs[i]}");
+    j.Close();
   }
   
 }
