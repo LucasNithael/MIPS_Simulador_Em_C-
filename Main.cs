@@ -5,15 +5,8 @@ using System.Linq;
 
 public class Program {
   public static void Main(string[] args) {
-    
-    String[] r = new String[32];
-    for(int i=0; i<32; i++)
-      r[i] = "$"+i; 
-    int index = 4;
-    r[index] = "$"+index+0;
-    foreach(object i in r)
-      Console.WriteLine(i);
-    //AbrirTxt("teste.txt");
+   // AbrirTxt("teste.txt");
+    Registrador("teste.txt");
   }  
   public static string Codificar(string s){
     string[] aux = s.Split(" ");
@@ -132,7 +125,62 @@ public class Program {
   public static string ReverteString(string str){
     return new string(str.Reverse().ToArray());
   }
-  
+  public static void Registrador(string arquivo){
+    StreamReader f = new StreamReader(arquivo);
+    int[] regs = new int[32];
+    List<string> codes = new List<string>();
+    string s = f.ReadLine();
+    while (s != null) {
+      string[] x = s.Split(" ");
+      if(x[0]=="add"){
+        int a = int.Parse(x[1].Replace("$", ""));
+        int b = int.Parse(x[2].Replace("$", ""));
+        int c = int.Parse(x[3].Replace("$", ""));
+        regs[a] = regs[b]+regs[c]; 
+      }
+      if(x[0]=="sub"){
+        int a = int.Parse(x[1].Replace("$", ""));
+        int b = int.Parse(x[2].Replace("$", ""));
+        int c = int.Parse(x[3].Replace("$", ""));
+        regs[a] = regs[b]-regs[c]; 
+      }
+      if(x[0]=="and"){
+        int a = int.Parse(x[1].Replace("$", ""));
+        int b = int.Parse(x[2].Replace("$", ""));
+        int c = int.Parse(x[3].Replace("$", ""));
+        regs[a] = regs[b] & regs[c];
+      }
+      if(x[0]=="or"){
+        int a = int.Parse(x[1].Replace("$", ""));
+        int b = int.Parse(x[2].Replace("$", ""));
+        int c = int.Parse(x[3].Replace("$", ""));
+        regs[a] = regs[b] | regs[c];
+      }
+      if(x[0]=="xor"){
+        int a = int.Parse(x[1].Replace("$", ""));
+        int b = int.Parse(x[2].Replace("$", ""));
+        int c = int.Parse(x[3].Replace("$", ""));
+        regs[a] = regs[b] ^ regs[c];
+      }
+      if(x[0]=="nor"){
+        int a = int.Parse(x[1].Replace("$", ""));
+        int b = int.Parse(x[2].Replace("$", ""));
+        int c = int.Parse(x[3].Replace("$", ""));
+        regs[a] = ~(regs[b] | regs[c]);
+      }
+      if(x[0]=="slt"){
+        int a = int.Parse(x[1].Replace("$", ""));
+        int b = int.Parse(x[2].Replace("$", ""));
+        int c = int.Parse(x[3].Replace("$", ""));
+        if(regs[b]<regs[c]) regs[a] = 1;
+        else regs[a] = 0;
+      }
+      s = f.ReadLine();
+    }
+    f.Close();
+    for(int i=0; i<32; i++)
+      Console.WriteLine($"${i}: "+regs[i]);
+  }
   
 }
 
