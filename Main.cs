@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Program {
   public static void Main(string[] args) {
-   // AbrirTxt("teste.txt");
+    //AbrirTxt("teste.txt");
     Registrador("teste.txt");
   }  
   public static string Codificar(string s){
@@ -47,6 +47,30 @@ public class Program {
         string x = opcode+Formar(aux[2])+Formar(aux[3])+Formar(aux[1])+shamt+function;
         return BinarioHexadecimal(x);
       }
+    if(aux[0].ToLower()=="addi"){
+      opcode = "001000";
+      string imm = DecimalBinario2(aux[3]); 
+      string x = opcode+Formar(aux[2])+Formar(aux[1])+imm;
+      return BinarioHexadecimal(x);
+    }
+    if(aux[0].ToLower()=="andi"){
+      opcode = "001100";
+      string imm = DecimalBinario2(aux[3]); 
+      string x = opcode+Formar(aux[2])+Formar(aux[1])+imm;
+      return BinarioHexadecimal(x);
+    }
+    if(aux[0].ToLower()=="ori"){
+      opcode = "001101";
+      string imm = DecimalBinario2(aux[3]); 
+      string x = opcode+Formar(aux[2])+Formar(aux[1])+imm;
+      return BinarioHexadecimal(x);
+    }
+    if(aux[0].ToLower()=="slti"){
+      opcode = "001010";
+      string imm = DecimalBinario2(aux[3]); 
+      string x = opcode+Formar(aux[2])+Formar(aux[1])+imm;
+      return BinarioHexadecimal(x);
+    }
     return null;
   }
   
@@ -76,6 +100,20 @@ public class Program {
       s += p.Pop().ToString();
     return s; 
   }
+  public static string DecimalBinario2(string x){
+    Stack<int> p = new Stack<int>();
+    int num = int.Parse(x);
+    int n;
+    for(int i=0 ; i<16; i++){
+      n=num%2;
+      p.Push(n);
+      num/=2;
+    }
+    string s = "";
+    for(int i=0; i<16; i++)
+      s += p.Pop().ToString();
+    return s; 
+  }
   public static List<string> AbrirTxt(string arquivo){
     StreamReader f = new StreamReader(arquivo);
     List<string> codes = new List<string>();
@@ -101,7 +139,7 @@ public class Program {
       s = s.Remove(0, 4);
       aux = "";
       }
-    return hex;
+    return "0x"+hex;
   }
   public static string BinarioHexadecimal2(string numeroBinario){
     int expoente = 0;
@@ -132,54 +170,57 @@ public class Program {
     string s = f.ReadLine();
     while (s != null) {
       string[] x = s.Split(" ");
+      int a = int.Parse(x[1].Replace("$", ""));
+      int b = int.Parse(x[2].Replace("$", ""));
+      int c = int.Parse(x[3].Replace("$", ""));
       if(x[0]=="add"){
-        int a = int.Parse(x[1].Replace("$", ""));
-        int b = int.Parse(x[2].Replace("$", ""));
-        int c = int.Parse(x[3].Replace("$", ""));
         regs[a] = regs[b]+regs[c]; 
       }
       if(x[0]=="sub"){
-        int a = int.Parse(x[1].Replace("$", ""));
-        int b = int.Parse(x[2].Replace("$", ""));
-        int c = int.Parse(x[3].Replace("$", ""));
         regs[a] = regs[b]-regs[c]; 
       }
       if(x[0]=="and"){
-        int a = int.Parse(x[1].Replace("$", ""));
-        int b = int.Parse(x[2].Replace("$", ""));
-        int c = int.Parse(x[3].Replace("$", ""));
         regs[a] = regs[b] & regs[c];
       }
       if(x[0]=="or"){
-        int a = int.Parse(x[1].Replace("$", ""));
-        int b = int.Parse(x[2].Replace("$", ""));
-        int c = int.Parse(x[3].Replace("$", ""));
         regs[a] = regs[b] | regs[c];
       }
       if(x[0]=="xor"){
-        int a = int.Parse(x[1].Replace("$", ""));
-        int b = int.Parse(x[2].Replace("$", ""));
-        int c = int.Parse(x[3].Replace("$", ""));
         regs[a] = regs[b] ^ regs[c];
       }
       if(x[0]=="nor"){
-        int a = int.Parse(x[1].Replace("$", ""));
-        int b = int.Parse(x[2].Replace("$", ""));
-        int c = int.Parse(x[3].Replace("$", ""));
         regs[a] = ~(regs[b] | regs[c]);
       }
       if(x[0]=="slt"){
-        int a = int.Parse(x[1].Replace("$", ""));
-        int b = int.Parse(x[2].Replace("$", ""));
-        int c = int.Parse(x[3].Replace("$", ""));
         if(regs[b]<regs[c]) regs[a] = 1;
         else regs[a] = 0;
       }
+      if(x[0]=="addi"){
+        int imd = int.Parse(Convert.ToString(x[3]));
+        regs[a] = regs[b] + imd;
+      }
+      if(x[0]=="subi"){
+        int imd = int.Parse(Convert.ToString(x[3]));
+        regs[a] = regs[b] - imd;
+      }
+      if(x[0]=="andi"){
+        int imd = int.Parse(Convert.ToString(x[3]));
+        regs[a] = regs[b] & imd;
+      }
+      if(x[0]=="andi"){
+        int imd = int.Parse(Convert.ToString(x[3]));
+        regs[a] = regs[b] | imd;
+      }
+      if(x[0]=="andi"){
+        int imd = int.Parse(Convert.ToString(x[3]));
+        if(regs[b]<imd) regs[a] = 1;
+        else regs[a] = 0;
+      }
+      
       s = f.ReadLine();
     }
     f.Close();
     StreamWriter j = new StreamWriter("Registradores.txt");
-    
     for(int i=0; i<32; i++)
       j.WriteLine($"${i}: {regs[i]}");
     j.Close();
