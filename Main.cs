@@ -174,47 +174,59 @@ public class Program {
       int b = int.Parse(x[2].Replace("$", ""));
       int c = int.Parse(x[3].Replace("$", ""));
       if(x[0]=="add"){
-        regs[a] = regs[b]+regs[c]; 
+        regs[a] = regs[b]+regs[c];
+        Console.WriteLine($"${a} = ${b} + ${c} = {regs[a]}");
       }
       if(x[0]=="sub"){
-        regs[a] = regs[b]-regs[c]; 
+        regs[a] = regs[b]-regs[c];
+        Console.WriteLine($"${a} = ${b} - ${c} = {regs[a]}");
       }
       if(x[0]=="and"){
         regs[a] = regs[b] & regs[c];
+        Console.WriteLine($"${a} = ${b} and ${c} = {regs[a]}");
       }
       if(x[0]=="or"){
         regs[a] = regs[b] | regs[c];
+        Console.WriteLine($"${a} = ${b} or ${c} = {regs[a]}");
       }
       if(x[0]=="xor"){
         regs[a] = regs[b] ^ regs[c];
+        Console.WriteLine($"${a} = ${b} xor ${c} = {regs[a]}");
       }
       if(x[0]=="nor"){
         regs[a] = ~(regs[b] | regs[c]);
+        Console.WriteLine($"${a} = ${b} nor ${c} = {regs[a]}");
       }
       if(x[0]=="slt"){
         if(regs[b]<regs[c]) regs[a] = 1;
         else regs[a] = 0;
+        Console.WriteLine($"${a} = ${b} slt ${c} = {regs[a]}");
       }
       if(x[0]=="addi"){
         int imd = int.Parse(Convert.ToString(x[3]));
         regs[a] = regs[b] + imd;
+        Console.WriteLine($"${a} = ${b} + {imd} = {regs[a]}");
       }
       if(x[0]=="subi"){
         int imd = int.Parse(Convert.ToString(x[3]));
         regs[a] = regs[b] - imd;
+        Console.WriteLine($"${a} = ${b} - {imd} = {regs[a]}");
       }
       if(x[0]=="andi"){
         int imd = int.Parse(Convert.ToString(x[3]));
         regs[a] = regs[b] & imd;
+        Console.WriteLine($"${a} = ${b} andi {imd} = {regs[a]}");
       }
-      if(x[0]=="andi"){
+      if(x[0]=="ori"){
         int imd = int.Parse(Convert.ToString(x[3]));
         regs[a] = regs[b] | imd;
+        Console.WriteLine($"${a} = ${b} ori {imd} = {regs[a]}");
       }
-      if(x[0]=="andi"){
+      if(x[0]=="slti"){
         int imd = int.Parse(Convert.ToString(x[3]));
         if(regs[b]<imd) regs[a] = 1;
         else regs[a] = 0;
+        Console.WriteLine($"${a} = ${b} slti {imd} = {regs[a]}");
       }
       
       s = f.ReadLine();
@@ -230,5 +242,19 @@ public class Program {
 
 
 
+/*
+Instrucões cadastradas:
 
+add
+sub
+and 
+or 
+slt
+xor 
+nor 
+andi 
+ori 
+slti 
+
+*/
     
