@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Program {
   public static void Main(string[] args) {
-    //AbrirTxt("teste.txt");
+    AbrirTxt("teste.txt");
     Registrador("teste.txt");
   }  
   public static string Codificar(string s){
@@ -116,6 +116,7 @@ public class Program {
   }
   public static List<string> AbrirTxt(string arquivo){
     StreamReader f = new StreamReader(arquivo);
+    StreamWriter k = new StreamWriter("CodeHex.txt");
     List<string> codes = new List<string>();
     string s = f.ReadLine();
     while (s != null) {
@@ -125,7 +126,8 @@ public class Program {
     f.Close();
     
     foreach(object i in codes)
-     Console.WriteLine(i);
+     k.WriteLine(i);
+    k.Close();
     return codes;
   }
   public static string BinarioHexadecimal(string s){
@@ -227,6 +229,11 @@ public class Program {
         if(regs[b]<imd) regs[a] = 1;
         else regs[a] = 0;
         Console.WriteLine($"${a} = ${b} slti {imd} = {regs[a]}");
+      }
+      if(x[0]=="div"){
+        int hi = regs[a] / regs[b];
+        int lo = regs[a] % regs[b]
+        Console.WriteLine($"div = HI{hi}  LO{lo}");
       }
       
       s = f.ReadLine();
