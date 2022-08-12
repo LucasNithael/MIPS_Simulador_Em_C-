@@ -49,9 +49,9 @@ public class Program {
       }
     if(aux[0].ToLower()=="addi"){
       opcode = "001000";
-      string imm = DecimalBinario2(aux[3]); 
+      string imm = DecimalBinario2(aux[3]);
       string x = opcode+Formar(aux[2])+Formar(aux[1])+imm;
-      return BinarioHexadecimal(x);
+      //return BinarioHexadecimal(x);
     }
     if(aux[0].ToLower()=="andi"){
       opcode = "001100";
@@ -85,6 +85,8 @@ public class Program {
     rt = DecimalBinario(a);
     return rt;
   }
+
+ 
   
   public static string DecimalBinario(string x){
     Stack<int> p = new Stack<int>();
@@ -175,68 +177,60 @@ public class Program {
       int a = int.Parse(x[1].Replace("$", ""));
       int b = int.Parse(x[2].Replace("$", ""));
       int c = int.Parse(x[3].Replace("$", ""));
+     
       if(x[0]=="add"){
         regs[a] = regs[b]+regs[c];
-        Console.WriteLine($"${a} = ${b} + ${c} = {regs[a]}");
       }
       if(x[0]=="sub"){
         regs[a] = regs[b]-regs[c];
-        Console.WriteLine($"${a} = ${b} - ${c} = {regs[a]}");
       }
       if(x[0]=="and"){
         regs[a] = regs[b] & regs[c];
-        Console.WriteLine($"${a} = ${b} and ${c} = {regs[a]}");
       }
       if(x[0]=="or"){
         regs[a] = regs[b] | regs[c];
-        Console.WriteLine($"${a} = ${b} or ${c} = {regs[a]}");
       }
       if(x[0]=="xor"){
         regs[a] = regs[b] ^ regs[c];
-        Console.WriteLine($"${a} = ${b} xor ${c} = {regs[a]}");
       }
       if(x[0]=="nor"){
         regs[a] = ~(regs[b] | regs[c]);
-        Console.WriteLine($"${a} = ${b} nor ${c} = {regs[a]}");
+        
       }
       if(x[0]=="slt"){
         if(regs[b]<regs[c]) regs[a] = 1;
         else regs[a] = 0;
-        Console.WriteLine($"${a} = ${b} slt ${c} = {regs[a]}");
+       
       }
       if(x[0]=="addi"){
         int imd = int.Parse(Convert.ToString(x[3]));
-        regs[a] = regs[b] + imd;
-        Console.WriteLine($"${a} = ${b} + {imd} = {regs[a]}");
+        regs[a] = regs[b] + (imd);
       }
       if(x[0]=="subi"){
         int imd = int.Parse(Convert.ToString(x[3]));
         regs[a] = regs[b] - imd;
-        Console.WriteLine($"${a} = ${b} - {imd} = {regs[a]}");
       }
       if(x[0]=="andi"){
         int imd = int.Parse(Convert.ToString(x[3]));
-        regs[a] = regs[b] & imd;
-        Console.WriteLine($"${a} = ${b} andi {imd} = {regs[a]}");
+        regs[a] = regs[b] & (imd);
       }
       if(x[0]=="ori"){
         int imd = int.Parse(Convert.ToString(x[3]));
         regs[a] = regs[b] | imd;
-        Console.WriteLine($"${a} = ${b} ori {imd} = {regs[a]}");
       }
       if(x[0]=="slti"){
         int imd = int.Parse(Convert.ToString(x[3]));
         if(regs[b]<imd) regs[a] = 1;
         else regs[a] = 0;
-        Console.WriteLine($"${a} = ${b} slti {imd} = {regs[a]}");
       }
-      if(x[0]=="div"){
-        int hi = regs[a] / regs[b];
-        int lo = regs[a] % regs[b]
-        Console.WriteLine($"div = HI{hi}  LO{lo}");
+      Console.WriteLine("-----BANCO DE REGISTRADORES----");
+      Console.WriteLine("-------------------------------");
+      for(int i=0; i<32; i++){
+          Console.WriteLine($"|    $ {i:D2}      -      {regs[i]:D2}     |");
       }
-      
+      Console.WriteLine("-------------------------------");
       s = f.ReadLine();
+    
     }
     f.Close();
     StreamWriter j = new StreamWriter("Registradores.txt");
